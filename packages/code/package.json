@@ -1,0 +1,20 @@
+{
+  "name": "web-socket-connect",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webSocket",
+    "长链接",
+    "双工通信",
+    "前端通信"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HokageYeah/web-socket-connect.git"
+  },
+  "author": "HokageYeah  <https://github.com/HokageYeah>",
+  "license": "ISC"
+}
