@@ -1,10 +1,16 @@
 import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
-import webSocketConnect from "web-socket-connect";
+import webSocketConnect, { webSocketClass } from "web-socket-connect";
+
+declare module "vue" {
+  interface ComponentCustomProperties {
+    $ws: webSocketClass;
+  }
+}
 
 const app = createApp(App);
 app.use(webSocketConnect, {
-  vueType: "vue333",
+  vueType: "vue3",
 });
 app.mount("#app");

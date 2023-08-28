@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <div>
     <a href="https://vitejs.dev" target="_blank">
@@ -10,9 +6,22 @@ import HelloWorld from './components/HelloWorld.vue'
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
+    <button @click="click">按钮点击websocket</button>
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>
+
+<script setup lang="ts">
+import { getCurrentInstance } from 'vue';
+import HelloWorld from './components/HelloWorld.vue'
+const instance = getCurrentInstance();
+const ws = instance!.appContext.config.globalProperties.$ws;
+const click = () => {
+  const wsUrl = "ws://localhost:9999";
+  ws.createWebSocket(wsUrl)
+  console.log(ws);
+}
+</script>
 
 <style scoped>
 .logo {

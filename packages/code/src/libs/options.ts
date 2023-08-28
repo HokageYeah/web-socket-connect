@@ -6,8 +6,10 @@ type keytype = keyof InitOptions;
 class Options implements InitOptions {
   vueType = "vue3"; // 默认vue3
   reconnectTimeout = 5000; // 重新进入超时时间
-  reconnectInterval = 1000; // 重新进入间隔
+  heartBeat = true; // 是否发送心跳包 默认true
   reconnectTimes = 3; // 重新进入次数
+
+  reconnectInterval = 1000; // 重新进入间隔
   reconnectDelay = 1000; // 重新进入延迟时间
   reconnect = true; // 是否定时重进入
   constructor(options: InitOptions) {
@@ -52,6 +54,7 @@ const validateInitOption = (options: InitOptions) => {
     reconnectTimes,
     reconnectDelay,
     reconnect,
+    heartBeat,
   } = options;
   const validateList = [
     validateOption(vueType, "vueType", "string"),
@@ -60,6 +63,7 @@ const validateInitOption = (options: InitOptions) => {
     validateOption(reconnectTimes, "reconnectTimes", "number"),
     validateOption(reconnectDelay, "reconnectDelay", "number"),
     validateOption(reconnect, "reconnect", "boolean"),
+    validateOption(heartBeat, "heartBeat", "boolean"),
   ];
   return validateList.every((item) => !!item);
 };
@@ -89,6 +93,7 @@ const validateVueType = (options: InitOptions) => {
     );
     return false;
   }
+  return true;
 };
 
 export let options: Options;
@@ -104,5 +109,5 @@ export function initOptions(optionsParams: InitOptions) {
   }
   //   通过教研后、初始化参数工作
   options = new Options(optionsParams);
-  return;
+  return true;
 }
