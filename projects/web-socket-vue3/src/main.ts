@@ -12,5 +12,6 @@ declare module "vue" {
 const app = createApp(App);
 app.use(webSocketConnect, {
   vueType: "vue3",
+  heartBeat: false
 });
 app.mount("#app");
