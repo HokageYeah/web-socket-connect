@@ -24,6 +24,7 @@ export class webSocketClass {
   private reconnect: boolean; // 是否定时重进入
   private heartCheckObj: heartCheckObjType; // 心路后台对象
   private globalCallback = new Map();
+  private callBackKey = "";
   num = 0;
 
   constructor() {
@@ -63,7 +64,9 @@ export class webSocketClass {
       // initWebSocket();
       this.createWebSocket(this.wsUrl);
     }
+    this.callBackKey = key;
     this.globalCallback.set(key, callback);
+    console.log(this.websock as WebSocket);
     if (
       (this.websock as WebSocket).readyState ===
       (this.websock as WebSocket).OPEN
@@ -74,11 +77,14 @@ export class webSocketClass {
       (this.websock as WebSocket).readyState ===
       (this.websock as WebSocket).CONNECTING
     ) {
+      console.log("正在开启状态");
+
       // 若是 正在开启状态，则等待2s后重新调用
       setTimeout(() => {
         this.sendSock(agentData, callback, key);
       }, 2000);
     } else {
+      console.log("若未开启");
       // 若未开启 ，则等待2s后重新调用
       setTimeout(() => {
         this.sendSock(agentData, callback, key);
@@ -120,7 +126,7 @@ export class webSocketClass {
     };
   }
   private initWebSocket() {
-    debugger
+    debugger;
     const that = this;
     this.websock = new WebSocket(this.wsUrl);
     // 监听服务端消息推送过来
@@ -169,24 +175,27 @@ export class webSocketClass {
 
   //   接受数据
   private websocketonmessage(e: MessageEvent<any>) {
+    console.log("接受数据-----", e);
     let ret =
       e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
     debugger;
     console.log(ret);
-    if (!ret) {
+    if (!ret && this.heartBeat) {
       this.heartCheckObj.reset();
     } else {
-      if (ret.msg === "websocket connect success") {
-      } else {
-        if (ret.method === "webSocket_device_transport") {
-          const callback = this.globalCallback.get(ret.sn);
+      const callback = this.globalCallback.get(this.callBackKey);
+      if (callback && typeof callback === "function") callback(ret);
+      //   if (ret.msg === "websocket connect success") {
+      //   } else {
+      //     if (ret.method === "webSocket_device_transport") {
+      //       const callback = this.globalCallback.get(ret.sn);
 
-          if (callback && typeof callback === "function") callback(ret);
-        } else if (ret.method === "webSocket_device_alarm") {
-          const callback = this.globalCallback.get("deviceAlert");
-          if (callback && typeof callback === "function") callback(ret);
-        }
-      }
+      //       if (callback && typeof callback === "function") callback(ret);
+      //     } else if (ret.method === "webSocket_device_alarm") {
+      //       const callback = this.globalCallback.get("deviceAlert");
+      //       if (callback && typeof callback === "function") callback(ret);
+      //     }
+      //   }
     }
   }
 

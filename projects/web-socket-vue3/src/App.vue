@@ -9,7 +9,7 @@
     <div class="socketContent">{{ content }}</div>
     <button @click="click">按钮点击创建webSocket链接</button>
     <button @click="clickReconnect">按钮点击重连reConnectSocket</button>
-    <button @click="clickSend">按钮点击发送消息</button>
+    <button :disabled="btnDisabled" @click="clickSend">按钮点击发送消息</button>
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>
@@ -23,12 +23,18 @@ import HelloWorld from "./components/HelloWorld.vue";
 const instance = getCurrentInstance();
 const ws = instance!.appContext.config.globalProperties.$ws;
 const content = ref<string>("");
+let btnDisabled = ref(false);
+onMounted(()=>{})
+// let socketObj = {
+//   msg: "<h1>我是的款式简单快乐是假的理科生简单说两句</h1>",
+//   method: "webSocket_device_transport",
+//   sn: "webSocketCallBackYeah",
+// };
 let socketObj = {
-  msg: "<h1>我是的款式简单快乐是假的理科生简单说两句</h1>",
-  method: "webSocket_device_transport",
-  sn: "webSocketCallBackYeah",
+  type: "lesson",
+  user_id: "123",
+  question: "天使的台词是什么？",
 };
-onMounted(() => {});
 const click = () => {
   const wsUrl = "ws://localhost:9999";
   // const wsUrl = "";
@@ -38,11 +44,16 @@ const click = () => {
 const clickReconnect = () => {
   ws.reConnectWebSocket();
 };
+let contentall = "";
 const clickSend = () => {
   ws.sendSock(
     socketObj,
     (e: any) => {
-      console.log("设置了=====>", e);
+      btnDisabled.value = true;
+      contentall += e.content;
+      // animationFrame();
+      if(e.is_end)animationFrame();
+      // console.log("设置了=====>", e);
     },
     "webSocketCallBackYeah"
   );
@@ -52,6 +63,133 @@ const clickSend = () => {
     console.log("毁掉了=====>", e);
   });
 };
+
+// let index = 0;
+// let timer: any;
+// const animationFrame = () => {
+//   if (timer) return;
+//   timer = setInterval(() => {
+//     if (index < contentall.length) {
+//       const str = contentall.charAt(index);
+//       console.log(contentall.charAt(index));
+//       content.value += str;
+//       index++;
+//     } else {
+//       console.log('结束了');
+//       index = 0;
+//       clearInterval(timer);
+//       timer = null
+//       btnDisabled.value = false
+//       return;
+//     }
+//   }, 100);
+// };
+
+const animationFrame = () => {
+  let index = 0;
+  let requestId: any; // 声明 requestId 变量
+  let startTime: number | undefined;
+  const interval = 0; // 设置间隔为 100 毫秒
+
+  const animate = (timestamp: number) => {
+    if (!startTime) {
+      startTime = timestamp;
+      console.log("startTime----", startTime);
+    }
+    const elapsed = timestamp - <number>startTime;
+    console.log("elapsed----", elapsed);
+    if (elapsed >= interval) {
+      startTime = timestamp;
+      if (index < contentall.length) {
+        console.log("index---", index);
+        const str = contentall.charAt(index);
+        console.log(contentall.charAt(index));
+        content.value += str;
+        index++;
+      } else {
+        console.log("结束了");
+        cancelAnimationFrame(requestId); // 停止动画
+        btnDisabled.value = false
+        requestId = null; // 重置 requestId 变量
+        return;
+      }
+    }
+    requestId = requestAnimationFrame(animate);
+  };
+  if(!requestId){
+    console.log('--------h是颠三倒四');
+    requestId = requestAnimationFrame(animate);
+  }
+};
+
+// const animationFrame = () => {
+//   let index = 0;
+//   let startTime = performance.now();
+//   const interval = 1000; // 设置间隔为 100 毫秒
+//   let requestId: any; // 声明 requestId 变量
+
+//   const animate = (timestamp: number) => {
+//     const elapsed = timestamp - startTime;
+//     console.log('elapsed---',elapsed);
+//     if (elapsed >= interval) {
+//       startTime = timestamp;
+//       if (index < contentall.length) {
+//         const str = contentall.charAt(index);
+//         console.log(contentall.charAt(index));
+//         console.log(index);
+//         content.value += str;
+//         index++;
+//       } else {
+//         console.log("结束了hahhaha");
+//         cancelAnimationFrame(requestId); // 停止动画
+//         requestId = null; // 重置 requestId 变量
+//         return;
+//       }
+//     }
+
+//     requestId = requestAnimationFrame(animate);
+//   };
+
+//   requestId = requestAnimationFrame(animate);
+// };
+
+// 调用 animationFrame() 启动动画
+// animationFrame();
+
+// function customizeSetInterval(callback: Function, interval: number) {
+//   let timer: any = null;
+//   let startTime = Date.now();
+//   let loop = () => {
+//     let endTime = Date.now();
+//     if (endTime - startTime >= interval) {
+//       startTime = endTime = Date.now();
+//       callback(timer);
+//     }
+//     timer = window.requestAnimationFrame(loop);
+//   };
+//   loop();
+//   return timer;
+// }
+
+// const animationFrame = () => {
+//   let requestId = customizeSetInterval((timer: any) => {
+//     console.log(1);
+//     if (index < contentall.length) {
+//       const str = contentall.charAt(index);
+//       console.log(contentall.charAt(index));
+//       content.value += str;
+//       index++;
+//     } else {
+//       console.log("结束了");
+//       cancelAnimationFrame(requestId); // 停止动画
+//       cancelAnimationFrame(timer); // 停止动画
+//       // requestId = null; // 重置 requestId 变量
+//       return;
+//     }
+//     // cancelAnimationFrame(timer);
+//   }, 200);
+// };
+
 </script>
 
 <style scoped>
