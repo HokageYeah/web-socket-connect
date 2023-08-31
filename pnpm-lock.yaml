@@ -54,6 +54,9 @@ importers:
       vue:
         specifier: ^2.6.14
         version: 2.7.14
+      web-socket-connect:
+        specifier: workspace:1.0.0-beta.1
+        version: link:../../packages/code
     devDependencies:
       '@babel/core':
         specifier: ^7.12.16

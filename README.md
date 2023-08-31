@@ -6,6 +6,27 @@
 </div>
 
 
+## 运行
+```
+pnpm install
+<!-- vue2 -->
+pnpm -F web-socket-vue2 start 
+<!-- vue3 -->
+pnpm -F web-socket-vue3 dev 
+
+<!-- 打包 -->
+pnpm run  build:rollup
+
+<!-- Mac 上传到npm -->
+pnpm run publishm:private <npm私服：服务器根据自己本地配置>
+pnpm run publishm:public <npm公网>
+
+
+<!-- Windows 上传到npm -->
+pnpm run publishw:private <npm私服：服务器根据自己本地配置>
+pnpm run publishw:public <npm公网>
+```
+
 
 ## 说明
 >  ### 1、插件入参说明：
@@ -40,5 +61,3 @@ app.mount("#app");
 * 3、发送数据：sendSock(agentData: any, callback: Function, key: string)
 * 4、获取回调函数： setSockFn(key: string, callback: Function)
 * 5、重新连接socket方法：reConnectWebSocket()
-
-
