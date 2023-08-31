@@ -6,7 +6,7 @@
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-    <div class="socketContent">{{ content }}</div>
+    <div class="socketContent" v-html="content"></div>
     <button @click="click">按钮点击创建webSocket链接</button>
     <button @click="clickReconnect">按钮点击重连reConnectSocket</button>
     <button :disabled="btnDisabled" @click="clickSend">按钮点击发送消息</button>
@@ -24,7 +24,7 @@ const instance = getCurrentInstance();
 const ws = instance!.appContext.config.globalProperties.$ws;
 const content = ref<string>("");
 let btnDisabled = ref(false);
-onMounted(()=>{})
+onMounted(() => {});
 // let socketObj = {
 //   msg: "<h1>我是的款式简单快乐是假的理科生简单说两句</h1>",
 //   method: "webSocket_device_transport",
@@ -52,7 +52,7 @@ const clickSend = () => {
       btnDisabled.value = true;
       contentall += e.content;
       // animationFrame();
-      if(e.is_end)animationFrame();
+      if (e.is_end) animationFrame();
       // console.log("设置了=====>", e);
     },
     "webSocketCallBackYeah"
@@ -108,16 +108,17 @@ const animationFrame = () => {
         index++;
       } else {
         console.log("结束了");
+        contentall = "";
         cancelAnimationFrame(requestId); // 停止动画
-        btnDisabled.value = false
+        btnDisabled.value = false;
         requestId = null; // 重置 requestId 变量
         return;
       }
     }
     requestId = requestAnimationFrame(animate);
   };
-  if(!requestId){
-    console.log('--------h是颠三倒四');
+  if (!requestId) {
+    console.log("--------h是颠三倒四");
     requestId = requestAnimationFrame(animate);
   }
 };
@@ -189,7 +190,6 @@ const animationFrame = () => {
 //     // cancelAnimationFrame(timer);
 //   }, 200);
 // };
-
 </script>
 
 <style scoped>

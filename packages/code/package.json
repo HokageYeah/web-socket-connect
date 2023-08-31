@@ -1,7 +1,22 @@
 {
   "name": "web-socket-connect",
   "version": "1.0.0",
-  "description": "",
+  "description": "前端socket插件，提供socket心跳检测、失败重连、手动关闭、发送数据、接受数据等功能",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./*"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

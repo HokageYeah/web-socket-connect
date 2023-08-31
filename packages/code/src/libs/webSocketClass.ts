@@ -43,7 +43,7 @@ export class webSocketClass {
       this.wsUrl = wsUrl;
       this.initWebSocket(); //初始化websocket连接
     } catch (error) {
-      console.log("尝试创建连接失败");
+      console.error("尝试创建连接失败");
       this.reConnect(); //如果无法连接上webSocket 那么重新连接！可能会因为服务器重新部署，或者短暂断网等导致无法创建连接
     }
   }
@@ -59,7 +59,6 @@ export class webSocketClass {
 
   // 发送数据
   public sendSock(agentData: any, callback: Function, key: string) {
-    debugger;
     if (!this.websock) {
       // initWebSocket();
       this.createWebSocket(this.wsUrl);
@@ -126,22 +125,18 @@ export class webSocketClass {
     };
   }
   private initWebSocket() {
-    debugger;
     const that = this;
     this.websock = new WebSocket(this.wsUrl);
     // 监听服务端消息推送过来
     this.websock.onmessage = function (e: MessageEvent<any>) {
-      debugger;
       that.websocketonmessage(e);
     };
     // 监听服务端消息通道关闭
     this.websock.onclose = function (e: CloseEvent) {
-      debugger;
       that.websocketclose(e);
     };
     // 创建 websocket 连接
     this.websock.onopen = function (e: Event) {
-      debugger;
       that.websocketOpen(e);
       console.log("websock.onopen---");
       //   如果开启心跳检测开关，则心跳检测
@@ -150,8 +145,7 @@ export class webSocketClass {
 
     // 连接发生错误的回调方法
     this.websock.onerror = function () {
-      debugger;
-      console.log("WebSocket连接发生错误");
+      console.error("WebSocket连接发生错误");
       that.isConnect = false; //连接断开修改标识
       that.reConnect(); //连接错误 需要重连
     };
@@ -178,7 +172,6 @@ export class webSocketClass {
     console.log("接受数据-----", e);
     let ret =
       e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
-    debugger;
     console.log(ret);
     if (!ret && this.heartBeat) {
       this.heartCheckObj.reset();
@@ -201,7 +194,6 @@ export class webSocketClass {
 
   //  关闭socket
   private websocketclose(e: CloseEvent) {
-    debugger;
     this.isConnect = false;
     this.heartCheckObj.stop();
     console.log("connection closed (" + e.code + ")");
