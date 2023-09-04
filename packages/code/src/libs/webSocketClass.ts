@@ -97,6 +97,7 @@ export class webSocketClass {
 
   private websocketsend(agentData: any) {
     if (this.websock) {
+      console.log(JSON.stringify(agentData));
       (this.websock as WebSocket).send(JSON.stringify(agentData));
     }
   }
@@ -133,6 +134,7 @@ export class webSocketClass {
     };
     // 监听服务端消息通道关闭
     this.websock.onclose = function (e: CloseEvent) {
+      console.log('我关闭了socket----')
       that.websocketclose(e);
     };
     // 创建 websocket 连接
@@ -170,9 +172,11 @@ export class webSocketClass {
   //   接受数据
   private websocketonmessage(e: MessageEvent<any>) {
     console.log("接受数据-----", e);
+    // 暂不对返回的数据做处理，全都返回出去
+    // let ret = e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
     let ret =
-      e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
-    console.log(ret);
+      e.data !== "hearbeat" ? e.data : e.data;
+    console.log('转换过后的数据------', ret);
     if (!ret && this.heartBeat) {
       this.heartCheckObj.reset();
     } else {
@@ -196,7 +200,7 @@ export class webSocketClass {
   private websocketclose(e: CloseEvent) {
     this.isConnect = false;
     this.heartCheckObj.stop();
-    console.log("connection closed (" + e.code + ")");
+    console.log("关闭socket：connection closed (" + e.code + ")");
   }
 }
 

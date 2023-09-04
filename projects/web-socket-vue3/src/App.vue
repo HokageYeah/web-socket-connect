@@ -10,6 +10,7 @@
     <button @click="click">按钮点击创建webSocket链接</button>
     <button @click="clickReconnect">按钮点击重连reConnectSocket</button>
     <button :disabled="btnDisabled" @click="clickSend">按钮点击发送消息</button>
+    <button :disabled="btnDisabled" @click="clickClose">按钮点击关闭</button>
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>
@@ -33,10 +34,14 @@ onMounted(() => {});
 let socketObj = {
   type: "lesson",
   user_id: "123",
-  question: "天使的台词是什么？",
+  question: "静夜思古诗完整版写出来",
 };
+const clickClose = () => {
+  ws.closeWebSocket()
+}
 const click = () => {
-  const wsUrl = "ws://localhost:9999";
+  // const wsUrl = "ws://localhost:9999";
+  const wsUrl = 'ws://192.168.3.119:8000';
   // const wsUrl = "";
   ws.createWebSocket(wsUrl);
   console.log(ws.isConnect);
@@ -48,11 +53,15 @@ let contentall = "";
 const clickSend = () => {
   ws.sendSock(
     socketObj,
-    (e: any) => {
+    (jsone: any) => {
+      const e = JSON.parse((jsone))
       btnDisabled.value = true;
       contentall += e.content;
+      console.log('添加返回数据-----', e);
+      console.log('添加-----', e.content);
+      console.log('添加jsone-----', jsone);
       // animationFrame();
-      if (e.is_end) animationFrame();
+      if (e.is_end==='true') animationFrame();
       // console.log("设置了=====>", e);
     },
     "webSocketCallBackYeah"
@@ -90,22 +99,23 @@ const animationFrame = () => {
   let requestId: any; // 声明 requestId 变量
   let startTime: number | undefined;
   const interval = 0; // 设置间隔为 100 毫秒
+  console.log('查看一下获取的数据-----', contentall);
 
   const animate = (timestamp: number) => {
     if (!startTime) {
       startTime = timestamp;
-      console.log("startTime----", startTime);
+      // console.log("startTime----", startTime);
     }
     const elapsed = timestamp - <number>startTime;
-    console.log("elapsed----", elapsed);
+    // console.log("elapsed----", elapsed);
     if (elapsed >= interval) {
       startTime = timestamp;
       if (index < contentall.length) {
-        console.log("index---", index);
+        // console.log("index---", index);
         const str = contentall.charAt(index);
-        console.log(contentall.charAt(index));
+        // console.log(contentall.charAt(index));
         content.value += str;
-        index++;
+        index+=1;
       } else {
         console.log("结束了");
         contentall = "";
@@ -215,5 +225,7 @@ button {
   border: 1px solid orange;
   margin: 0 auto;
   text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 </style>
