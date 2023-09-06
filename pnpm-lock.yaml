@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -21,7 +25,7 @@ importers:
         version: 7.0.3
       esbuild-register:
         specifier: ^3.4.2
-        version: 3.4.2
+        version: 3.4.2(esbuild@0.18.20)
       rollup:
         specifier: ^3.28.0
         version: 3.28.1
@@ -30,7 +34,7 @@ importers:
         version: 5.3.1(rollup@3.28.1)(typescript@5.2.2)
       rollup-plugin-esbuild:
         specifier: ^5.0.0
-        version: 5.0.0(rollup@3.28.1)
+        version: 5.0.0(esbuild@0.18.20)(rollup@3.28.1)
       rollup-plugin-terser:
         specifier: ^7.0.2
         version: 7.0.2(rollup@3.28.1)
@@ -55,7 +59,7 @@ importers:
         specifier: ^2.6.14
         version: 2.7.14
       web-socket-connect:
-        specifier: workspace:1.0.0-beta.1
+        specifier: workspace:1.0.0-beta.13
         version: link:../../packages/code
     devDependencies:
       '@babel/core':
@@ -66,13 +70,13 @@ importers:
         version: 7.22.11(@babel/core@7.22.11)(eslint@7.32.0)
       '@vue/cli-plugin-babel':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/cli-service@5.0.8)(core-js@3.32.1)(vue@2.7.14)
+        version: 5.0.8(@vue/cli-service@5.0.8)(core-js@3.32.1)(esbuild@0.18.20)(vue@2.7.14)
       '@vue/cli-plugin-eslint':
         specifier: ~5.0.0
-        version: 5.0.8(@vue/cli-service@5.0.8)(eslint@7.32.0)
+        version: 5.0.8(@vue/cli-service@5.0.8)(esbuild@0.18.20)(eslint@7.32.0)
       '@vue/cli-service':
         specifier: ~5.0.0
-        version: 5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14)
+        version: 5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14)
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -89,7 +93,7 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
       web-socket-connect:
-        specifier: workspace:^1.0.0
+        specifier: workspace:1.0.0-beta.13
         version: link:../../packages/code
     devDependencies:
       '@vitejs/plugin-vue':
@@ -100,7 +104,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: ^4.4.5
-        version: 4.4.9
+        version: 4.4.9(@types/node@20.5.7)
       vue-tsc:
         specifier: ^1.8.5
         version: 1.8.8(typescript@5.2.2)
@@ -1780,7 +1784,7 @@ packages:
       error-stack-parser: 2.1.4
       string-width: 4.2.3
       strip-ansi: 6.0.1
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /@soda/get-current-script@1.0.2:
@@ -1952,7 +1956,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.9
+      vite: 4.4.9(@types/node@20.5.7)
       vue: 3.3.4
     dev: true
 
@@ -2134,18 +2138,18 @@ packages:
     resolution: {integrity: sha512-KmtievE/B4kcXp6SuM2gzsnSd8WebkQpg3XaB6GmFh1BJGRqa1UiW9up7L/Q67uOdTigHxr5Ar2lZms4RcDjwQ==}
     dev: true
 
-  /@vue/cli-plugin-babel@5.0.8(@vue/cli-service@5.0.8)(core-js@3.32.1)(vue@2.7.14):
+  /@vue/cli-plugin-babel@5.0.8(@vue/cli-service@5.0.8)(core-js@3.32.1)(esbuild@0.18.20)(vue@2.7.14):
     resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
       '@babel/core': 7.22.11
       '@vue/babel-preset-app': 5.0.8(@babel/core@7.22.11)(core-js@3.32.1)(vue@2.7.14)
-      '@vue/cli-service': 5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14)
+      '@vue/cli-service': 5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14)
       '@vue/cli-shared-utils': 5.0.8
       babel-loader: 8.3.0(@babel/core@7.22.11)(webpack@5.88.2)
       thread-loader: 3.0.4(webpack@5.88.2)
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     transitivePeerDependencies:
       - '@swc/core'
       - core-js
@@ -2157,18 +2161,18 @@ packages:
       - webpack-cli
     dev: true
 
-  /@vue/cli-plugin-eslint@5.0.8(@vue/cli-service@5.0.8)(eslint@7.32.0):
+  /@vue/cli-plugin-eslint@5.0.8(@vue/cli-service@5.0.8)(esbuild@0.18.20)(eslint@7.32.0):
     resolution: {integrity: sha512-d11+I5ONYaAPW1KyZj9GlrV/E6HZePq5L5eAF5GgoVdu6sxr6bDgEoxzhcS1Pk2eh8rn1MxG/FyyR+eCBj/CNg==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
       eslint: '>=7.5.0'
     dependencies:
-      '@vue/cli-service': 5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14)
+      '@vue/cli-service': 5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14)
       '@vue/cli-shared-utils': 5.0.8
       eslint: 7.32.0
       eslint-webpack-plugin: 3.2.0(eslint@7.32.0)(webpack@5.88.2)
       globby: 11.1.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
       yorkie: 2.0.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -2183,7 +2187,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
-      '@vue/cli-service': 5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14)
+      '@vue/cli-service': 5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14)
       '@vue/cli-shared-utils': 5.0.8
     transitivePeerDependencies:
       - encoding
@@ -2194,10 +2198,10 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
-      '@vue/cli-service': 5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14)
+      '@vue/cli-service': 5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14)
     dev: true
 
-  /@vue/cli-service@5.0.8(vue-template-compiler@2.7.14)(vue@2.7.14):
+  /@vue/cli-service@5.0.8(esbuild@0.18.20)(vue-template-compiler@2.7.14)(vue@2.7.14):
     resolution: {integrity: sha512-nV7tYQLe7YsTtzFrfOMIHc5N2hp5lHG2rpYr0aNja9rNljdgcPZLyQRb2YRivTHqTv7lI962UXFURcpStHgyFw==}
     engines: {node: ^12.0.0 || >= 14.0.0}
     hasBin: true
@@ -2250,7 +2254,7 @@ packages:
       cliui: 7.0.4
       copy-webpack-plugin: 9.1.0(webpack@5.88.2)
       css-loader: 6.8.1(webpack@5.88.2)
-      css-minimizer-webpack-plugin: 3.4.1(webpack@5.88.2)
+      css-minimizer-webpack-plugin: 3.4.1(esbuild@0.18.20)(webpack@5.88.2)
       cssnano: 5.1.15(postcss@8.4.28)
       debug: 4.3.4
       default-gateway: 6.0.3
@@ -2272,12 +2276,12 @@ packages:
       postcss-loader: 6.2.1(postcss@8.4.28)(webpack@5.88.2)
       progress-webpack-plugin: 1.0.16(webpack@5.88.2)
       ssri: 8.0.1
-      terser-webpack-plugin: 5.3.9(webpack@5.88.2)
+      terser-webpack-plugin: 5.3.9(esbuild@0.18.20)(webpack@5.88.2)
       thread-loader: 3.0.4(webpack@5.88.2)
       vue-loader: 17.2.2(vue@2.7.14)(webpack@5.88.2)
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.7.14
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
       webpack-bundle-analyzer: 4.9.0
       webpack-chain: 6.5.1
       webpack-dev-server: 4.15.1(debug@4.3.4)(webpack@5.88.2)
@@ -2722,8 +2726,10 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /ajv-formats@2.1.1:
+  /ajv-formats@2.1.1(ajv@8.12.0):
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -2885,7 +2891,7 @@ packages:
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /babel-plugin-dynamic-import-node@2.3.3:
@@ -3503,7 +3509,7 @@ packages:
       normalize-path: 3.0.0
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /core-js-compat@3.32.1:
@@ -3590,10 +3596,10 @@ packages:
       postcss-modules-values: 4.0.0(postcss@8.4.28)
       postcss-value-parser: 4.2.0
       semver: 7.5.4
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
-  /css-minimizer-webpack-plugin@3.4.1(webpack@5.88.2):
+  /css-minimizer-webpack-plugin@3.4.1(esbuild@0.18.20)(webpack@5.88.2):
     resolution: {integrity: sha512-1u6D71zeIfgngN2XNRJefc/hY7Ybsxd74Jm4qngIXyUEk7fss3VUzuHxLAq/R8NAba4QU9OUSaMZlbpRc7bM4Q==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
@@ -3613,12 +3619,13 @@ packages:
         optional: true
     dependencies:
       cssnano: 5.1.15(postcss@8.4.28)
+      esbuild: 0.18.20
       jest-worker: 27.5.1
       postcss: 8.4.28
       schema-utils: 4.2.0
       serialize-javascript: 6.0.1
       source-map: 0.6.1
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /css-select@4.3.0:
@@ -3963,12 +3970,13 @@ packages:
     resolution: {integrity: sha512-vZK7T0N2CBmBOixhmjdqx2gWVbFZ4DXZ/NyRMZVlJXPa7CyFS+/a4QQsDGDQy9ZfEzxFuNEsMLeQJnKP2p5/JA==}
     dev: true
 
-  /esbuild-register@3.4.2:
+  /esbuild-register@3.4.2(esbuild@0.18.20):
     resolution: {integrity: sha512-kG/XyTDyz6+YDuyfB9ZoSIOOmgyFCH+xPRtsCa8W85HLRV5Csp+o3jWVbOSHgSLfyLc5DmP+KFDNwty4mEjC+Q==}
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
       debug: 4.3.4
+      esbuild: 0.18.20
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4100,7 +4108,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.2.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /eslint@7.32.0:
@@ -4695,7 +4703,7 @@ packages:
       lodash: 4.17.21
       pretty-error: 4.0.0
       tapable: 2.2.1
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /htmlparser2@6.1.0:
@@ -5360,7 +5368,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.2.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /minimalistic-assert@1.0.1:
@@ -5872,7 +5880,7 @@ packages:
       klona: 2.0.6
       postcss: 8.4.28
       semver: 7.5.4
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /postcss-merge-longhand@5.1.7(postcss@8.4.28):
@@ -6189,7 +6197,7 @@ packages:
       chalk: 2.4.2
       figures: 2.0.0
       log-update: 2.3.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /progress@2.0.3:
@@ -6435,7 +6443,7 @@ packages:
       '@babel/code-frame': 7.22.10
     dev: true
 
-  /rollup-plugin-esbuild@5.0.0(rollup@3.28.1):
+  /rollup-plugin-esbuild@5.0.0(esbuild@0.18.20)(rollup@3.28.1):
     resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
@@ -6445,6 +6453,7 @@ packages:
       '@rollup/pluginutils': 5.0.4(rollup@3.28.1)
       debug: 4.3.4
       es-module-lexer: 1.3.0
+      esbuild: 0.18.20
       joycon: 3.1.1
       jsonc-parser: 3.2.0
       rollup: 3.28.1
@@ -6542,7 +6551,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.12
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1(ajv@8.12.0)
       ajv-keywords: 5.1.0(ajv@8.12.0)
     dev: true
 
@@ -6959,7 +6968,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /terser-webpack-plugin@5.3.9(webpack@5.88.2):
+  /terser-webpack-plugin@5.3.9(esbuild@0.18.20)(webpack@5.88.2):
     resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -6976,11 +6985,12 @@ packages:
         optional: true
     dependencies:
       '@jridgewell/trace-mapping': 0.3.19
+      esbuild: 0.18.20
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
       terser: 5.19.2
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /terser@5.19.2:
@@ -7022,7 +7032,7 @@ packages:
       loader-utils: 2.0.4
       neo-async: 2.6.2
       schema-utils: 3.3.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /thunky@1.1.0:
@@ -7184,7 +7194,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite@4.4.9:
+  /vite@4.4.9(@types/node@20.5.7):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -7212,6 +7222,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.5.7
       esbuild: 0.18.20
       postcss: 8.4.28
       rollup: 3.28.1
@@ -7267,7 +7278,7 @@ packages:
       vue-hot-reload-api: 2.3.4
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.7.14
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -7340,7 +7351,7 @@ packages:
       hash-sum: 2.0.0
       vue: 2.7.14
       watchpack: 2.4.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /vue-style-loader@4.1.3:
@@ -7451,7 +7462,7 @@ packages:
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.2.0
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
     dev: true
 
   /webpack-dev-server@4.15.1(debug@4.3.4)(webpack@5.88.2):
@@ -7495,7 +7506,7 @@ packages:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack: 5.88.2
+      webpack: 5.88.2(esbuild@0.18.20)
       webpack-dev-middleware: 5.3.3(webpack@5.88.2)
       ws: 8.13.0
     transitivePeerDependencies:
@@ -7522,7 +7533,7 @@ packages:
     resolution: {integrity: sha512-5tyDlKLqPfMqjT3Q9TAqf2YqjwmnUleZwzJi1A5qXnlBCdj2AtOJ6wAWdglTIDOPgOiOrXeBeFcsQ8+aGQ6QbA==}
     dev: true
 
-  /webpack@5.88.2:
+  /webpack@5.88.2(esbuild@0.18.20):
     resolution: {integrity: sha512-JmcgNZ1iKj+aiR0OvTYtWQqJwq37Pf683dY9bVORwVbUrDhLhdn/PlO2sHsFHPkj7sHNQF3JwaAkp49V+Sq1tQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
@@ -7553,7 +7564,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.9(webpack@5.88.2)
+      terser-webpack-plugin: 5.3.9(esbuild@0.18.20)(webpack@5.88.2)
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:
@@ -7703,7 +7714,3 @@ packages:
       normalize-path: 1.0.0
       strip-indent: 2.0.0
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

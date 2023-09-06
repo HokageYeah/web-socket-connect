@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import webSocketConnect from 'web-socket-connect';
+// import webSocketConnect from 'web-socket-connect';
 
 Vue.config.productionTip = false
 
