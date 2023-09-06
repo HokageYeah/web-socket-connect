@@ -34,7 +34,7 @@ onMounted(() => {});
 let socketObj = {
   type: "lesson",
   user_id: "123",
-  question: "静夜思古诗完整版写出来",
+  question: "写一个滕王阁序的教案",
 };
 const clickClose = () => {
   ws.closeWebSocket()
@@ -55,13 +55,13 @@ const clickSend = () => {
     socketObj,
     (jsone: any) => {
       const e = JSON.parse((jsone))
-      btnDisabled.value = true;
+      // btnDisabled.value = true;
       contentall += e.content;
       console.log('添加返回数据-----', e);
       console.log('添加-----', e.content);
       console.log('添加jsone-----', jsone);
-      // animationFrame();
-      if (e.is_end==='true') animationFrame();
+      animationFrame();
+      // if (e.is_end==='true') animationFrame();
       // console.log("设置了=====>", e);
     },
     "webSocketCallBackYeah"
@@ -73,28 +73,28 @@ const clickSend = () => {
   });
 };
 
-// let index = 0;
-// let timer: any;
-// const animationFrame = () => {
-//   if (timer) return;
-//   timer = setInterval(() => {
-//     if (index < contentall.length) {
-//       const str = contentall.charAt(index);
-//       console.log(contentall.charAt(index));
-//       content.value += str;
-//       index++;
-//     } else {
-//       console.log('结束了');
-//       index = 0;
-//       clearInterval(timer);
-//       timer = null
-//       btnDisabled.value = false
-//       return;
-//     }
-//   }, 100);
-// };
-
+let index = 0;
+let timer: any;
 const animationFrame = () => {
+  if (timer) return;
+  timer = setInterval(() => {
+    if (index < contentall.length) {
+      const str = contentall.charAt(index);
+      console.log(contentall.charAt(index));
+      content.value += str;
+      index++;
+    } else {
+      console.log('结束了');
+      index = 0;
+      clearInterval(timer);
+      timer = null
+      btnDisabled.value = false
+      return;
+    }
+  }, 100);
+};
+
+const animationFramereq = () => {
   let index = 0;
   let requestId: any; // 声明 requestId 变量
   let startTime: number | undefined;

@@ -50,6 +50,7 @@ export class webSocketClass {
   //设置关闭连接
   public closeWebSocket() {
     (this.websock as WebSocket).close();
+    this.websock = null;
   }
   // 外部调用重新链接方法
   public reConnectWebSocket() {
@@ -59,6 +60,7 @@ export class webSocketClass {
 
   // 发送数据
   public sendSock(agentData: any, callback: Function, key: string) {
+    debugger;
     if (!this.websock) {
       // initWebSocket();
       this.createWebSocket(this.wsUrl);
@@ -130,7 +132,7 @@ export class webSocketClass {
     this.websock = new WebSocket(this.wsUrl);
     // 监听服务端消息推送过来
     this.websock.onmessage = function (e: MessageEvent<any>) {
-      that.websocketonmessage(e);
+      if(that.isConnect)that.websocketonmessage(e);
     };
     // 监听服务端消息通道关闭
     this.websock.onclose = function (e: CloseEvent) {
@@ -140,7 +142,7 @@ export class webSocketClass {
     // 创建 websocket 连接
     this.websock.onopen = function (e: Event) {
       that.websocketOpen(e);
-      console.log("websock.onopen---");
+      console.log("打开websock.onopen---");
       //   如果开启心跳检测开关，则心跳检测
       if (that.heartBeat) that.heartCheckObj.start();
     };
@@ -166,7 +168,7 @@ export class webSocketClass {
   // 创建websocket连接
   private websocketOpen(e: Event) {
     this.isConnect = true;
-    console.log("连接成功", e);
+    console.log("webSocket连接成功", e);
   }
 
   //   接受数据
