@@ -25,6 +25,7 @@ export class webSocketClass {
   private heartCheckObj: heartCheckObjType; // 心路后台对象
   private globalCallback = new Map();
   private callBackKey = "";
+  private isNavigating = false;
   num = 0;
 
   constructor() {
@@ -36,6 +37,23 @@ export class webSocketClass {
     this.reconnectInterval = options.reconnectInterval;
     this.reconnectDelay = options.reconnectDelay;
     this.reconnect = options.reconnect;
+    window.addEventListener('beforeunload', ()=>{
+      console.warn('beforeunload---');
+      this.isNavigating = true;
+    });
+    window.addEventListener('unload', ()=> {
+      console.warn('unload---');
+      this.isNavigating = true;
+    });
+    window.addEventListener('hashchange',  ()=> {
+      console.warn('hashchange---');
+      this.isNavigating = true;
+    });
+    window.addEventListener('popstate', ()=> {
+      this.isNavigating = true;
+      console.warn('History changed----');
+    });
+    
   }
 
   public createWebSocket(wsUrl: string) {
@@ -148,10 +166,14 @@ export class webSocketClass {
     };
 
     // 连接发生错误的回调方法
-    this.websock.onerror = function () {
-      console.error("WebSocket连接发生错误");
-      that.isConnect = false; //连接断开修改标识
-      that.reConnect(); //连接错误 需要重连
+    this.websock.onerror = function (e) {
+      if (that.isNavigating) {
+        console.log('WebSocket error---在页面即将离开或被关闭时');
+      } else {
+        console.error("WebSocket连接发生错误---", e);
+        that.isConnect = false; //连接断开修改标识
+        that.reConnect(); //连接错误 需要重连
+      }
     };
   }
   // 定义重新连接函数
