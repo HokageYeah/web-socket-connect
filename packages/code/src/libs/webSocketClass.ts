@@ -67,8 +67,12 @@ export class webSocketClass {
   }
   //设置关闭连接
   public closeWebSocket() {
-    (this.websock as WebSocket).close();
-    this.websock = null;
+    if(this.websock ) {
+      (this.websock as WebSocket).close();
+      this.websock = null;
+    }else{
+      console.warn('websock is null');
+    }
   }
   // 外部调用重新链接方法
   public reConnectWebSocket() {
