@@ -235,7 +235,7 @@ export class webSocketClass {
 
   //   接受数据
   private websocketonmessage(e: MessageEvent<any>) {
-    console.log("接受数据最新版本-----", e);
+    console.log("接受数据超时最新-----", e);
     this.sendRec && clearTimeout(this.sendRec);
     // 暂不对返回的数据做处理，全都返回出去
     // let ret = e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
