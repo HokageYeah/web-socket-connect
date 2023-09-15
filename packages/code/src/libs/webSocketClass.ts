@@ -15,7 +15,8 @@ export class webSocketClass {
   public isConnect = false; //连接标识， 避免重复连接
   private rec: NodeJS.Timeout | undefined; //断线重连后，延迟5秒重新创建WebSocket连接  rec用来存储延迟请求的代码
   private checkMsg = "hearbeat"; // 心跳发送/返回的信息 服务器和客户端收到的信息内容如果如下 就识别为心跳信息 不要做业务处理
-  private reconnectTimeout: number; // 重新进入超时时间
+  private reconnectTimeout: number; // 重新连接的延迟时间
+  private receiveMessageTimeout: number; // 接收消息超时时间
   private reconnectTimes: number; // 重新进入次数
   private heartBeat: boolean; // 是否定时反馈心跳包
 
@@ -26,39 +27,44 @@ export class webSocketClass {
   private globalCallback = new Map();
   private callBackKey = "";
   private isNavigating = false;
+  private receiveTimeout = null;
   num = 0;
+  sendNum = 0; //发送消息在没有连接的情况下，重新发送的次数
+  private sendRec: NodeJS.Timeout | undefined; //sendRec用来存储延迟请求的代码
 
   constructor() {
     this.reconnectTimeout = options.reconnectTimeout;
     this.reconnectTimes = options.reconnectTimes;
+    this.receiveMessageTimeout = options.receiveMessageTimeout;
     this.heartBeat = options.heartBeat;
     this.heartCheckObj = this.heartCheck();
 
     this.reconnectInterval = options.reconnectInterval;
     this.reconnectDelay = options.reconnectDelay;
     this.reconnect = options.reconnect;
-    window.addEventListener('beforeunload', ()=>{
-      console.warn('beforeunload---');
+    window.addEventListener("beforeunload", () => {
+      console.warn("beforeunload---");
       this.isNavigating = true;
     });
-    window.addEventListener('unload', ()=> {
-      console.warn('unload---');
+    window.addEventListener("unload", () => {
+      console.warn("unload---");
       this.isNavigating = true;
     });
-    window.addEventListener('hashchange',  ()=> {
-      console.warn('hashchange---');
+    window.addEventListener("hashchange", () => {
+      console.warn("hashchange---");
       this.isNavigating = true;
     });
-    window.addEventListener('popstate', ()=> {
+    window.addEventListener("popstate", () => {
       this.isNavigating = true;
-      console.warn('History changed----');
+      console.warn("History changed----");
     });
-    
   }
 
-  public createWebSocket(wsUrl: string) {
+  public createWebSocket(wsUrl: string, timeOutCallback: Function) {
     try {
       this.wsUrl = wsUrl;
+      this.globalCallback.set("timeOutCallback", timeOutCallback);
+      console.log("注册了timeOutCallback事件---");
       this.initWebSocket(); //初始化websocket连接
     } catch (error) {
       console.error("尝试创建连接失败");
@@ -67,11 +73,12 @@ export class webSocketClass {
   }
   //设置关闭连接
   public closeWebSocket() {
-    if(this.websock ) {
+    if (this.websock) {
       (this.websock as WebSocket).close();
       this.websock = null;
-    }else{
-      console.warn('websock is null');
+      this.sendNum = 0;
+    } else {
+      console.warn("websock is null");
     }
   }
   // 外部调用重新链接方法
@@ -82,10 +89,12 @@ export class webSocketClass {
 
   // 发送数据
   public sendSock(agentData: any, callback: Function, key: string) {
-    debugger;
     if (!this.websock) {
       // initWebSocket();
-      this.createWebSocket(this.wsUrl);
+      this.createWebSocket(
+        this.wsUrl,
+        this.globalCallback.get("timeOutCallback")
+      );
     }
     this.callBackKey = key;
     this.globalCallback.set(key, callback);
@@ -101,16 +110,31 @@ export class webSocketClass {
       (this.websock as WebSocket).CONNECTING
     ) {
       console.log("正在开启状态");
-
+      if (this.sendNum >= this.reconnectTimes) {
+        this.closeWebSocket();
+        const callback = this.globalCallback.get("timeOutCallback");
+        callback();
+        return;
+      }
+      this.sendRec && clearTimeout(this.sendRec);
       // 若是 正在开启状态，则等待2s后重新调用
-      setTimeout(() => {
+      this.sendRec = setTimeout(() => {
         this.sendSock(agentData, callback, key);
+        this.sendNum++;
       }, 2000);
     } else {
       console.log("若未开启");
+      if (this.sendNum >= this.reconnectTimes) {
+        this.closeWebSocket();
+        const callback = this.globalCallback.get("timeOutCallback");
+        callback();
+        return;
+      }
+      this.sendRec && clearTimeout(this.sendRec);
       // 若未开启 ，则等待2s后重新调用
-      setTimeout(() => {
+      this.sendRec = setTimeout(() => {
         this.sendSock(agentData, callback, key);
+        this.sendNum++;
       }, 2000);
     }
   }
@@ -123,6 +147,14 @@ export class webSocketClass {
     if (this.websock) {
       console.log(JSON.stringify(agentData));
       (this.websock as WebSocket).send(JSON.stringify(agentData));
+
+      this.sendRec && clearTimeout(this.sendRec);
+      this.sendRec = setTimeout(() => {
+        console.log("接收消息超时，WebSocket 连接已关闭");
+        this.closeWebSocket();
+        const callback = this.globalCallback.get("timeOutCallback");
+        callback();
+      }, this.receiveMessageTimeout);
     }
   }
 
@@ -154,11 +186,11 @@ export class webSocketClass {
     this.websock = new WebSocket(this.wsUrl);
     // 监听服务端消息推送过来
     this.websock.onmessage = function (e: MessageEvent<any>) {
-      if(that.isConnect)that.websocketonmessage(e);
+      if (that.isConnect) that.websocketonmessage(e);
     };
     // 监听服务端消息通道关闭
     this.websock.onclose = function (e: CloseEvent) {
-      console.log('我关闭了socket----')
+      console.log("我关闭了socket----");
       that.websocketclose(e);
     };
     // 创建 websocket 连接
@@ -172,7 +204,7 @@ export class webSocketClass {
     // 连接发生错误的回调方法
     this.websock.onerror = function (e) {
       if (that.isNavigating) {
-        console.log('WebSocket error---在页面即将离开或被关闭时');
+        console.log("WebSocket error---在页面即将离开或被关闭时");
       } else {
         console.error("WebSocket连接发生错误---", e);
         that.isConnect = false; //连接断开修改标识
@@ -188,7 +220,11 @@ export class webSocketClass {
     this.rec = setTimeout(() => {
       console.log("尝试重新连接");
       this.num++;
-      this.createWebSocket(this.wsUrl);
+      // this.createWebSocket(this.wsUrl);
+      this.createWebSocket(
+        this.wsUrl,
+        this.globalCallback.get("timeOutCallback")
+      );
     }, this.reconnectTimeout);
   }
   // 创建websocket连接
@@ -200,11 +236,11 @@ export class webSocketClass {
   //   接受数据
   private websocketonmessage(e: MessageEvent<any>) {
     console.log("接受数据最新版本-----", e);
+    this.sendRec && clearTimeout(this.sendRec);
     // 暂不对返回的数据做处理，全都返回出去
     // let ret = e.data !== "hearbeat" ? JSON.parse(decodeUnicode(e.data)) : e.data;
-    let ret =
-      e.data !== "hearbeat" ? e.data : e.data;
-    console.log('转换过后的数据------', ret);
+    let ret = e.data !== "hearbeat" ? e.data : e.data;
+    console.log("转换过后的数据------", ret);
     if (!ret && this.heartBeat) {
       this.heartCheckObj.reset();
     } else {

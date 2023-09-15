@@ -43,7 +43,9 @@ const click = () => {
   // const wsUrl = "ws://localhost:9999";
   const wsUrl = 'ws://192.168.3.119:8000';
   // const wsUrl = "";
-  ws.createWebSocket(wsUrl);
+  ws.createWebSocket(wsUrl, ()=> {
+    console.log('超时了----');
+  });
   console.log(ws.isConnect);
 };
 const clickReconnect = () => {

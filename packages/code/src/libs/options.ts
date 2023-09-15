@@ -5,9 +5,10 @@ type keytype = keyof InitOptions;
 
 class Options implements InitOptions {
   vueType = "vue3"; // 默认vue3
-  reconnectTimeout = 5000; // 重新进入超时时间
+  reconnectTimeout = 5000; // 重新连接的延迟时间
   heartBeat = true; // 是否发送心跳包 默认true
   reconnectTimes = 3; // 重新进入次数
+  receiveMessageTimeout = 10000; // 接收消息超时时间
 
   reconnectInterval = 1000; // 重新进入间隔
   reconnectDelay = 1000; // 重新进入延迟时间
@@ -42,6 +43,7 @@ const validateOptionMustFill = (target: any, targetName: string) => {
 
 // reconnectTimeout?: number; // 重新进入超时时间
 // reconnectInterval?: number; // 重新连接间隔
+// receiveMessageTimeout?: number; // 接收消息超时时间
 // reconnectTimes?: number; // 重新进入次数
 // reconnectDelay?: number; // 重新进入延迟时间
 // reconnect?: boolean; // 是否定时重进入
@@ -52,6 +54,7 @@ const validateInitOption = (options: InitOptions) => {
     reconnectTimeout,
     reconnectInterval,
     reconnectTimes,
+    receiveMessageTimeout,
     reconnectDelay,
     reconnect,
     heartBeat,
@@ -59,6 +62,7 @@ const validateInitOption = (options: InitOptions) => {
   const validateList = [
     validateOption(vueType, "vueType", "string"),
     validateOption(reconnectTimeout, "reconnectTimeout", "number"),
+    validateOption(receiveMessageTimeout, "receiveMessageTimeout", "number"),
     validateOption(reconnectInterval, "reconnectInterval", "number"),
     validateOption(reconnectTimes, "reconnectTimes", "number"),
     validateOption(reconnectDelay, "reconnectDelay", "number"),

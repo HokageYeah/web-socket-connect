@@ -11,15 +11,16 @@
 >  ### 1、插件入参说明：
 
 
-  | 入参              | 类型    | 是否必传 | 说明                                          |
-  | :---------------- | :------ | :------- | :-------------------------------------------- |
-  | vueType           | string  | 必传     | 告诉插件是vue2 还是vue3。 只能传vue2 或者vue3 |
-  | reconnectTimeout  | number  | 非必传   | 重新进入超时时间 默认5s                       |
-  | reconnectTimes    | number  | 非必传   | 重新进入次数 默认3次                          |
-  | heartBeat         | boolean | 非必传   | 是否发送心跳包       默认true                 |
-  | reconnectInterval | number  | 非必传   | 重新连接间隔                                  |
-  | reconnectDelay    | number  | 非必传   | 重新进入延迟时间                              |
-  | reconnect         | boolean | 非必传   | 是否定时重进入                                |
+  | 入参                  | 类型    | 是否必传 | 说明                                          |
+  | :-------------------- | :------ | :------- | :-------------------------------------------- |
+  | vueType               | string  | 必传     | 告诉插件是vue2 还是vue3。 只能传vue2 或者vue3 |
+  | reconnectTimeout      | number  | 非必传   | 重新连接进入延迟时间 默认5s                   |
+  | receiveMessageTimeout | number  | 非必传   | 接收消息超时时间 默认10s                      |
+  | reconnectTimes        | number  | 非必传   | 重新进入次数 默认3次                          |
+  | heartBeat             | boolean | 非必传   | 是否发送心跳包       默认true                 |
+  | reconnectInterval     | number  | 非必传   | 重新连接间隔                                  |
+  | reconnectDelay        | number  | 非必传   | 重新进入延迟时间                              |
+  | reconnect             | boolean | 非必传   | 是否定时重进入                                |
 
   发送给后端心跳包字段为：hearbeat
 
