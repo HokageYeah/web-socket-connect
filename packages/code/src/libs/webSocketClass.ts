@@ -91,6 +91,7 @@ export class webSocketClass {
   public sendSock(agentData: any, callback: Function, key: string) {
     if (!this.websock) {
       // initWebSocket();
+      console.log('发送数据没有websock---', this.websock);
       this.createWebSocket(
         this.wsUrl,
         this.globalCallback.get("timeOutCallback")
@@ -104,6 +105,7 @@ export class webSocketClass {
       (this.websock as WebSocket).OPEN
     ) {
       // 若是ws开启状态
+      console.log("已经开启状态");
       this.websocketsend(agentData);
     } else if (
       (this.websock as WebSocket).readyState ===
@@ -149,6 +151,7 @@ export class webSocketClass {
       (this.websock as WebSocket).send(JSON.stringify(agentData));
 
       this.sendRec && clearTimeout(this.sendRec);
+      this.sendNum = 0;
       this.sendRec = setTimeout(() => {
         console.log("接收消息超时，WebSocket 连接已关闭");
         this.closeWebSocket();
